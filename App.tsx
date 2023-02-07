@@ -5,10 +5,10 @@ import {
 } from 'react-native';
 
 function App(): JSX.Element {
-
   return (
     <SafeAreaView>
       <Text>Hola mundo</Text>
+      <Text>Me llamo Javier Trujillo</Text>
     </SafeAreaView>
   );
 }
