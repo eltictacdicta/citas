@@ -9,7 +9,7 @@ function App(): JSX.Element {
   const nombre="Javier Trujillo"
   return (
     <SafeAreaView>
-      <Text>Administracion de citas{' '}
+      <Text style={styles.titulo}>Administracion de citas{' '}
       <Text>Veterinaria</Text>
       </Text>
     </SafeAreaView>
@@ -17,6 +17,15 @@ function App(): JSX.Element {
 
   
 }
+
+const styles = StyleSheet.create({
+  titulo: {
+    textAlign: 'center',
+    color: '#374151',
+    fontSize: 30,
+    fontWeight: '600'
+  }
+})
 
 
 export default App;
