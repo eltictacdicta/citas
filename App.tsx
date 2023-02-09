@@ -1,16 +1,21 @@
 import React from 'react';
 import {
   SafeAreaView,
-  Text
+  Text,
+  StyleSheet
 } from 'react-native';
 
 function App(): JSX.Element {
+  const nombre="Javier Trujillo"
   return (
     <SafeAreaView>
-      <Text>Hola mundo</Text>
-      <Text>Me llamo Javier Trujillo</Text>
+      <Text>Administracion de citas{' '}
+      <Text>Veterinaria</Text>
+      </Text>
     </SafeAreaView>
   );
+
+  
 }
 
 
