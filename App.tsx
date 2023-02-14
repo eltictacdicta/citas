@@ -12,13 +12,14 @@ import Formulario from './src/components/Formulario';
 function App(): JSX.Element {
 
   const [modalVisible, setModalVisible] = useState(false)
+  const [pacientes, setPacientes] = useState([])
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.titulo}>Administracion de citas{' '}
       <Text style={styles.tituloBold}>Veterinaria</Text>
       </Text>
       <Pressable
-        onPress={() => {setModalVisible(true)}}
+        onPress={() => {setModalVisible(!modalVisible)}}
         style={styles.btnNuevaCita}
       >
         <Text
@@ -30,6 +31,9 @@ function App(): JSX.Element {
       
       <Formulario
         modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        pacientes = {pacientes}
+        setPacientes={setPacientes}
       />
 
     </SafeAreaView>

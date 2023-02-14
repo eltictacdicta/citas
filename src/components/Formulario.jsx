@@ -6,17 +6,47 @@ import {
     View,
     StyleSheet,
     TextInput,
-    ScrollView
+    Pressable,
+    ScrollView,
+    Alert
 } from 'react-native'
 import DatePicker from 'react-native-date-picker'
 
-const Formulario = ({modalVisible}) => {
+const Formulario = ({modalVisible, setModalVisible, setPacientes, pacientes}) => {
   const [paciente, setPaciente] = useState('')
   const [porpietario, setPropietario] = useState('')
   const [email, setEmail] = useState('')
   const [telefono, setTelefono] = useState('')
   const [fecha, setFecha] = useState(new Date())
   const [sintomas, setSintomas] = useState('')
+
+  const handleCita = () =>{
+    //validar
+    if([paciente, porpietario, email, fecha, sintomas].includes('')){
+      Alert.alert(
+        'Error',
+        'Todos los campos son obligatorios'
+      )
+      return //este return rompe el flujo
+    }
+
+    const nuevoPaciente ={
+      paciente,
+      email,
+      telefono,
+      fecha,
+      sintomas
+    }
+
+    setPacientes([...pacientes,nuevoPaciente])
+    setModalVisible(!modalVisible)
+    setPaciente('')
+    setPropietario('')
+    setEmail('')
+    setTelefono('')
+    setFecha(new Date())
+    setSintomas('')
+  }
 
 
   return (
@@ -33,6 +63,18 @@ const Formulario = ({modalVisible}) => {
           >Nueva{' '}
               <Text style={styles.tituloBold}>Cita</Text>
             </Text>
+
+            <Pressable 
+              style={styles.btnCancelar}
+              onLongPress={()=> setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.btnCancelarTexto}>
+                X Cancelar
+              </Text>
+              
+            </Pressable>
+
+
             <View style={styles.campo}>
               <Text style={styles.label}>Nombre de Paciente</Text>
               <TextInput
@@ -101,6 +143,15 @@ const Formulario = ({modalVisible}) => {
                 numberOfLines={4}
               />
             </View>
+            <Pressable 
+              style={styles.btnNuevaCita}
+              onPress={handleCita}
+            >
+              <Text style={styles.btnNuevaCitaTexto}>
+                  Agregar paciente
+              </Text>
+              
+            </Pressable>
           </ScrollView>
         </SafeAreaView>
          
@@ -124,6 +175,22 @@ const styles = StyleSheet.create({
   tituloBold:{
     fontWeight:'900'
   },
+  btnCancelar:{
+    marginVertical: 30,
+    backgroundColor: '#5827A4',
+    marginHorizontal: 30,
+    padding:20,
+    borderRadius: 10
+
+
+  },
+  btnCancelarTexto:{
+    color:'#FFF',
+    textAlign: 'center',
+    fontWeight: '900',
+    fontSize: 16,
+    textTransform: 'uppercase'
+  },
   campo:{
     marginHorizontal: 30,
     marginBottom: 10
@@ -146,6 +213,22 @@ const styles = StyleSheet.create({
   fechaContenedor:{
     backgroundColor:'#FFF',
     borderRadius: 10
+  },
+  btnNuevaCita:{
+    marginVertical: 50,
+    backgroundColor: '#F59E0B',
+    marginHorizontal: 30,
+    padding:15,
+    borderRadius: 10
+
+
+  },
+  btnNuevaCitaTexto:{
+    color:'#5827A4',
+    textAlign: 'center',
+    fontWeight: '900',
+    fontSize: 16,
+    textTransform: 'uppercase'
   }
   
 })
