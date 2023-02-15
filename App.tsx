@@ -3,11 +3,13 @@ import {
   SafeAreaView,
   Text,
   StyleSheet,
-  Pressable
+  Pressable,
+  FlatList
 } from 'react-native';
 
 
 import Formulario from './src/components/Formulario';
+import Paciente from './src/components/Paciente';
 
 function App(): JSX.Element {
 
@@ -29,6 +31,21 @@ function App(): JSX.Element {
         </Text>
       </Pressable>
       
+      {pacientes.length === 0 ? 
+        <Text style={styles.noPacientes}>No hay pacientes</Text>:
+        <FlatList
+          style={styles.listado}
+          data={pacientes}
+          keyExtractor={(item)=> item.id}
+          renderItem={({item})=>{
+
+            return(
+              <Paciente item={item}/>
+            )
+          }}
+        />
+      }
+
       <Formulario
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
@@ -72,6 +89,16 @@ const styles = StyleSheet.create({
     fontSize:20,
     fontWeight:'900',
     textTransform: 'uppercase'
+  },
+  noPacientes:{
+    marginTop: 40,
+    textAlign: 'center',
+    fontSize: 24,
+    fontWeight: '600'
+  },
+  listado:{
+    marginTop: 50,
+    marginHorizontal: 30
   }
 })
 
