@@ -15,6 +15,14 @@ function App(): JSX.Element {
 
   const [modalVisible, setModalVisible] = useState(false)
   const [pacientes, setPacientes] = useState([])
+  const [paciente, setPaciente] = useState([])
+
+  const pacienteEditar = id => {
+    const pacienteActual = pacientes.filter(paciente => paciente.id === id)
+    setPaciente(pacienteActual[0])
+  }
+
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.titulo}>Administracion de citas{' '}
@@ -38,9 +46,13 @@ function App(): JSX.Element {
           data={pacientes}
           keyExtractor={(item)=> item.id}
           renderItem={({item})=>{
-
             return(
-              <Paciente item={item}/>
+              <Paciente 
+              item={item}
+              setModalVisible={setModalVisible}
+              modalVisible={modalVisible}
+              pacienteEditar={pacienteEditar}
+              />
             )
           }}
         />
@@ -51,6 +63,7 @@ function App(): JSX.Element {
         setModalVisible={setModalVisible}
         pacientes = {pacientes}
         setPacientes={setPacientes}
+        pacienteObj={paciente}
       />
 
     </SafeAreaView>

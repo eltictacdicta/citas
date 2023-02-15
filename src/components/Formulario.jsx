@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     Modal,
     Text,
@@ -12,13 +12,27 @@ import {
 } from 'react-native'
 import DatePicker from 'react-native-date-picker'
 
-const Formulario = ({modalVisible, setModalVisible, setPacientes, pacientes}) => {
+const Formulario = ({modalVisible, setModalVisible, setPacientes, pacientes, pacienteObj}) => {
+  
+  const [id, setId] = useState('')
   const [paciente, setPaciente] = useState('')
   const [porpietario, setPropietario] = useState('')
   const [email, setEmail] = useState('')
   const [telefono, setTelefono] = useState('')
   const [fecha, setFecha] = useState(new Date())
   const [sintomas, setSintomas] = useState('')
+
+  useEffect(()=>{
+    if(Object.keys(pacienteObj).length >0 ){
+      setId(pacienteObj.id)
+      setPaciente(pacienteObj.paciente)
+      setPropietario(pacienteObj.porpietario)
+      setEmail(pacienteObj.email)
+      setTelefono(pacienteObj.telefono)
+      setFecha(pacienteObj.fecha)
+      setSintomas(pacienteObj.sintomas)
+    }
+  }, [])
 
   const handleCita = () =>{
     //validar
