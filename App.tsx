@@ -4,22 +4,40 @@ import {
   Text,
   StyleSheet,
   Pressable,
-  FlatList
+  FlatList,
+  Alert,
+  Modal
 } from 'react-native';
 
 
 import Formulario from './src/components/Formulario';
 import Paciente from './src/components/Paciente';
+import InfoPaciente from './src/components/InfoPaciente';
 
 function App(): JSX.Element {
 
   const [modalVisible, setModalVisible] = useState(false)
+  const [modalPaciente, setModalPaciente] = useState(false)
   const [pacientes, setPacientes] = useState([])
   const [paciente, setPaciente] = useState({})
 
   const pacienteEditar = id => {
     const pacienteActual = pacientes.filter(paciente => paciente.id === id)
     setPaciente(pacienteActual[0])
+  }
+
+  const pacienteEliminar = id => {
+    Alert.alert(
+      '¿Seguro que deseas eliminar este paciente?',
+      'Un paciente eliminado no se puede recuperar',
+      [
+        { text: 'Cancelar'},
+        { text: 'Si, Eliminar', onPress:()=>{
+          const pacientesActualizados = pacientes.filter(paciente => paciente.id !== id)
+          setPacientes(pacientesActualizados)
+        }}
+      ]
+    )
   }
 
 
@@ -51,7 +69,10 @@ function App(): JSX.Element {
               item={item}
               setModalVisible={setModalVisible}
               modalVisible={modalVisible}
+              setPaceinte={setPaciente}
               pacienteEditar={pacienteEditar}
+              pacienteEliminar={pacienteEliminar}
+              setModalPaciente={setModalPaciente}
               />
             )
           }}
@@ -64,7 +85,16 @@ function App(): JSX.Element {
         pacientes = {pacientes}
         setPacientes={setPacientes}
         pacienteObj={paciente}
+        setPacienteApp={setPaciente}
       />
+
+      <Modal
+        visible={modalPaciente}
+        animationType='fade'
+        paciente={paciente}
+      >
+        <InfoPaciente/>
+      </Modal>
 
     </SafeAreaView>
   );
