@@ -16,27 +16,30 @@ const Formulario = ({modalVisible, setModalVisible, setPacientes, pacientes, pac
   
   const [id, setId] = useState('')
   const [paciente, setPaciente] = useState('')
-  const [porpietario, setPropietario] = useState('')
+  const [propietario, setPropietario] = useState('')
   const [email, setEmail] = useState('')
   const [telefono, setTelefono] = useState('')
   const [fecha, setFecha] = useState(new Date())
   const [sintomas, setSintomas] = useState('')
 
   useEffect(()=>{
+    
+    console.log(pacienteObj)
     if(Object.keys(pacienteObj).length >0 ){
+      console.log('Si hay algo ',pacienteObj.propietario)
       setId(pacienteObj.id)
       setPaciente(pacienteObj.paciente)
-      setPropietario(pacienteObj.porpietario)
+      setPropietario(pacienteObj.propietario)
       setEmail(pacienteObj.email)
       setTelefono(pacienteObj.telefono)
       setFecha(pacienteObj.fecha)
       setSintomas(pacienteObj.sintomas)
     }
-  }, [])
+  }, [pacienteObj])
 
   const handleCita = () =>{
     //validar
-    if([paciente, porpietario, email, fecha, sintomas].includes('')){
+    if([paciente, propietario, email, fecha, sintomas].includes('')){
       Alert.alert(
         'Error',
         'Todos los campos son obligatorios'
@@ -47,6 +50,7 @@ const Formulario = ({modalVisible, setModalVisible, setPacientes, pacientes, pac
     const nuevoPaciente ={
       id: Date.now(),
       paciente,
+      propietario,
       email,
       telefono,
       fecha,
@@ -107,7 +111,7 @@ const Formulario = ({modalVisible, setModalVisible, setPacientes, pacientes, pac
                 style={styles.input}
                 placeholder='Nombre de propietario'
                 placeholderTextColor={'#666'}
-                value={porpietario}
+                value={propietario}
                 onChangeText={setPropietario}
               />
             </View>

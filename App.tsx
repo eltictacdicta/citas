@@ -15,7 +15,7 @@ function App(): JSX.Element {
 
   const [modalVisible, setModalVisible] = useState(false)
   const [pacientes, setPacientes] = useState([])
-  const [paciente, setPaciente] = useState([])
+  const [paciente, setPaciente] = useState({})
 
   const pacienteEditar = id => {
     const pacienteActual = pacientes.filter(paciente => paciente.id === id)
