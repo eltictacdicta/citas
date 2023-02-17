@@ -69,7 +69,7 @@ function App(): JSX.Element {
               item={item}
               setModalVisible={setModalVisible}
               modalVisible={modalVisible}
-              setPaceinte={setPaciente}
+              setPaciente={setPaciente}
               pacienteEditar={pacienteEditar}
               pacienteEliminar={pacienteEliminar}
               setModalPaciente={setModalPaciente}
@@ -91,9 +91,11 @@ function App(): JSX.Element {
       <Modal
         visible={modalPaciente}
         animationType='fade'
-        paciente={paciente}
+        
       >
-        <InfoPaciente/>
+        <InfoPaciente
+          paciente={paciente}
+        />
       </Modal>
 
     </SafeAreaView>

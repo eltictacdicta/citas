@@ -22,7 +22,7 @@ const Paciente = ({item,
     return (
         <Pressable 
             onLongPress={() => {
-                setModalPaciente(true),
+                setModalPaciente(true)
                 setPaciente(item)
             }}
         >
