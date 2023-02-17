@@ -95,6 +95,7 @@ function App(): JSX.Element {
       >
         <InfoPaciente
           paciente={paciente}
+          setModalPaciente={setModalPaciente}
         />
       </Modal>
 
