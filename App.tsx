@@ -40,6 +40,10 @@ function App(): JSX.Element {
     )
   }
 
+  const cerrarModal = ()=>{
+    setModalVisible(false)
+  }
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -78,15 +82,17 @@ function App(): JSX.Element {
           }}
         />
       }
-
-      <Formulario
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        pacientes = {pacientes}
-        setPacientes={setPacientes}
-        pacienteObj={paciente}
-        setPacienteApp={setPaciente}
-      />
+      {modalVisible &&(
+        <Formulario
+          cerrarModal = {cerrarModal}
+          modalVisible={modalVisible}
+          pacientes = {pacientes}
+          setPacientes={setPacientes}
+          pacienteObj={paciente}
+          setPacienteApp={setPaciente}
+        />
+      )}
+      
 
       <Modal
         visible={modalPaciente}
