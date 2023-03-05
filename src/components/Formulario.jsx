@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import {
     Modal,
     Text,
@@ -11,11 +11,14 @@ import {
     Alert
 } from 'react-native'
 import DatePicker from 'react-native-date-picker'
+import {DataContext} from '../context/DataContext'
 
-const Formulario = ({cerrarModal, modalVisible, setPacientes, pacientes, pacienteObj, setPacienteApp}) => {
+const Formulario = () => {
   
+  const {paciente,setPaciente,pacientes,setPacientes,modalVisible,setModalVisible} = useContext( DataContext )
+
   const [id, setId] = useState('')
-  const [paciente, setPaciente] = useState('')
+  const [nombre, setNombre] = useState('')
   const [propietario, setPropietario] = useState('')
   const [email, setEmail] = useState('')
   const [telefono, setTelefono] = useState('')
@@ -24,22 +27,22 @@ const Formulario = ({cerrarModal, modalVisible, setPacientes, pacientes, pacient
 
   useEffect(()=>{
     
-    console.log(pacienteObj)
-    if(Object.keys(pacienteObj).length >0 ){
-      console.log('Si hay algo ',pacienteObj.propietario)
-      setId(pacienteObj.id)
-      setPaciente(pacienteObj.paciente)
-      setPropietario(pacienteObj.propietario)
-      setEmail(pacienteObj.email)
-      setTelefono(pacienteObj.telefono)
-      setFecha(pacienteObj.fecha)
-      setSintomas(pacienteObj.sintomas)
+    console.log(paciente)
+    if(Object.keys(paciente).length >0 ){
+      console.log('Si hay algo ',paciente.propietario)
+      setId(paciente.id)
+      setNombre(paciente.nombre)
+      setPropietario(paciente.propietario)
+      setEmail(paciente.email)
+      setTelefono(paciente.telefono)
+      setFecha(paciente.fecha)
+      setSintomas(paciente.sintomas)
     }
-  }, [pacienteObj])
+  }, [paciente])
 
   const handleCita = () =>{
     //validar
-    if([paciente, propietario, email, fecha, sintomas].includes('')){
+    if([nombre, propietario, email, fecha, sintomas].includes('')){
       Alert.alert(
         'Error',
         'Todos los campos son obligatorios'
@@ -50,7 +53,7 @@ const Formulario = ({cerrarModal, modalVisible, setPacientes, pacientes, pacient
 
     }
     const nuevoPaciente ={
-      paciente,
+      nombre,
       propietario,
       email,
       telefono,
@@ -65,7 +68,7 @@ const Formulario = ({cerrarModal, modalVisible, setPacientes, pacientes, pacient
       const pacientesActualizados = pacientes.map( pacienteState => 
         pacienteState.id===nuevoPaciente.id ? nuevoPaciente : pacienteState )
       setPacientes(pacientesActualizados)
-      setPacienteApp({})
+      setPaciente({})
 
     }else{
       //añadiendo
@@ -77,7 +80,7 @@ const Formulario = ({cerrarModal, modalVisible, setPacientes, pacientes, pacient
     
 
     
-    cerrarModal()
+    setModalVisible(false)
     setId('')
     setPaciente('')
     setPropietario('')
@@ -99,7 +102,7 @@ const Formulario = ({cerrarModal, modalVisible, setPacientes, pacientes, pacient
           <ScrollView>
             <Text
             style={styles.titulo}
-          >{pacienteObj.id ? 'Editar' : 'Nueva'}{' '}
+          >{paciente.id ? 'Editar' : 'Nueva'}{' '}
               <Text style={styles.tituloBold}>Cita</Text>
             </Text>
 
@@ -107,10 +110,10 @@ const Formulario = ({cerrarModal, modalVisible, setPacientes, pacientes, pacient
               style={styles.btnCancelar}
               onLongPress={()=> {
                 
-                cerrarModal()
-                setPacienteApp({})
+                setModalVisible(false)
+                setPaciente({})
                 setId('')
-                setPaciente('')
+                setNombre('')
                 setPropietario('')
                 setEmail('')
                 setTelefono('')
@@ -131,8 +134,8 @@ const Formulario = ({cerrarModal, modalVisible, setPacientes, pacientes, pacient
                 style={styles.input}
                 placeholder='Nombre de paciente'
                 placeholderTextColor={'#666'}
-                value={paciente}
-                onChangeText={setPaciente}
+                value={nombre}
+                onChangeText={setNombre}
 
               />
             </View>
@@ -198,7 +201,7 @@ const Formulario = ({cerrarModal, modalVisible, setPacientes, pacientes, pacient
               onPress={handleCita}
             >
               <Text style={styles.btnNuevaCitaTexto}>
-                  {pacienteObj.id ? 'Editar' : 'Agregar'} paciente
+                  {paciente.id ? 'Editar' : 'Agregar'} paciente
               </Text>
               
             </Pressable>

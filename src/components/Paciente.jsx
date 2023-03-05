@@ -1,15 +1,13 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import {Text, View, StyleSheet,Pressable} from 'react-native'
 import { formatearFecha } from '../helpers'
+import {DataContext} from '../context/DataContext'
 
-const Paciente = ({item, 
-    setModalVisible, 
-    modalVisible, 
+const Paciente = ({item,   
     pacienteEditar, 
-    pacienteEliminar, 
-    setModalPaciente,
-    setPaciente}) => {
-    const {paciente,fecha,id} = item
+    pacienteEliminar}) => {
+    const {paciente,setPaciente,modalVisible,setModalVisible,setModalPaciente} = useContext( DataContext )
+    const {nombre,fecha,id} = item
     return (
         <Pressable 
             onLongPress={() => {
@@ -19,7 +17,7 @@ const Paciente = ({item,
         >
             <View style={styles.contenedor}>
                 <Text style={styles.label}>Paciente</Text>
-                <Text style={styles.texto}>{paciente}</Text>
+                <Text style={styles.texto}>{nombre}</Text>
                 <Text style={styles.fecha}>{formatearFecha(fecha)}</Text>
                 <View style={styles.contenedorBotones}>
                     <Pressable 

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
+import {DataContext,DataProvider} from './src/context/DataContext'
 import {
   SafeAreaView,
   Text,
@@ -10,16 +11,13 @@ import {
 } from 'react-native';
 
 
-import Formulario from './src/components/Formulario';
-import Paciente from './src/components/Paciente';
-import InfoPaciente from './src/components/InfoPaciente';
+import Formulario from './src/components/Formulario'
+import Paciente from './src/components/Paciente'
+import InfoPaciente from './src/components/InfoPaciente'
 
-function App(): JSX.Element {
 
-  const [modalVisible, setModalVisible] = useState(false)
-  const [modalPaciente, setModalPaciente] = useState(false)
-  const [pacientes, setPacientes] = useState([])
-  const [paciente, setPaciente] = useState({})
+const Main = () => {
+  const {paciente,setPaciente,pacientes,setPacientes,modalVisible,setModalVisible,modalPaciente,setModalPaciente} = useContext( DataContext )
 
   const pacienteEditar = id => {
     const pacienteActual = pacientes.filter(paciente => paciente.id === id)
@@ -40,73 +38,72 @@ function App(): JSX.Element {
     )
   }
 
-  const cerrarModal = ()=>{
-    setModalVisible(false)
-  }
 
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.titulo}>Administracion de citas{' '}
-      <Text style={styles.tituloBold}>Veterinaria</Text>
-      </Text>
-      <Pressable
-        onPress={() => {setModalVisible(!modalVisible)}}
-        style={styles.btnNuevaCita}
-      >
-        <Text
-        style={styles.btnTextoNuevaCita}
-        >
-          Nueva cita
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.titulo}>Administracion de citas{' '}
+        <Text style={styles.tituloBold}>Veterinaria</Text>
         </Text>
-      </Pressable>
-      
-      {pacientes.length === 0 ? 
-        <Text style={styles.noPacientes}>No hay pacientes</Text>:
-        <FlatList
-          style={styles.listado}
-          data={pacientes}
-          keyExtractor={(item)=> item.id}
-          renderItem={({item})=>{
-            return(
-              <Paciente 
-              item={item}
-              setModalVisible={setModalVisible}
-              modalVisible={modalVisible}
-              setPaciente={setPaciente}
-              pacienteEditar={pacienteEditar}
-              pacienteEliminar={pacienteEliminar}
-              setModalPaciente={setModalPaciente}
-              />
-            )
-          }}
-        />
-      }
-      {modalVisible &&(
-        <Formulario
-          cerrarModal = {cerrarModal}
-          modalVisible={modalVisible}
-          pacientes = {pacientes}
-          setPacientes={setPacientes}
-          pacienteObj={paciente}
-          setPacienteApp={setPaciente}
-        />
-      )}
-      
-
-      <Modal
-        visible={modalPaciente}
-        animationType='fade'
+        <Pressable
+          onPress={() => {setModalVisible(!modalVisible)}}
+          style={styles.btnNuevaCita}
+        >
+          <Text
+          style={styles.btnTextoNuevaCita}
+          >
+            Nueva cita
+          </Text>
+        </Pressable>
         
-      >
-        <InfoPaciente
-          paciente={paciente}
-          setModalPaciente={setModalPaciente}
-          setPaciente={setPaciente}
-        />
-      </Modal>
+        {pacientes.length === 0 ? 
+          <Text style={styles.noPacientes}>No hay pacientes</Text>:
+          <FlatList
+            style={styles.listado}
+            data={pacientes}
+            keyExtractor={(item)=> item.id}
+            renderItem={({item})=>{
+              return(
+                <Paciente 
+                item={item}
+                pacienteEditar={pacienteEditar}
+                pacienteEliminar={pacienteEliminar}
+                />
+              )
+            }}
+          />
+        }
+        {modalVisible &&(
+          <Formulario/>
+        )}
+        
 
-    </SafeAreaView>
+        <Modal
+          visible={modalPaciente}
+          animationType='fade'
+          
+        >
+          <InfoPaciente
+            paciente={paciente}
+            setModalPaciente={setModalPaciente}
+            setPaciente={setPaciente}
+          />
+        </Modal>
+
+      </SafeAreaView>
+  );
+
+}
+
+
+function App(): JSX.Element {
+
+  
+
+  return (
+    <DataProvider>
+      <Main/>
+    </DataProvider>
   );
 
   

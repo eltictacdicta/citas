@@ -1,7 +1,10 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import {Text, SafeAreaView, Pressable, View, StyleSheet} from 'react-native'
 import { formatearFecha } from '../helpers'
-const InfoPaciente = ({paciente, setModalPaciente, setPaciente}) => {
+import {DataContext} from '../context/DataContext'
+
+const InfoPaciente = () => {
+  const {paciente,setPaciente,setModalPaciente} = useContext( DataContext )
   return (
     <SafeAreaView style={styles.contendedor}>
       <Text style={styles.titulo}>Información <Text style={styles.tituloBold}>Paciente</Text></Text>
