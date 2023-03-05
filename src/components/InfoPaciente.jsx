@@ -26,7 +26,7 @@ const InfoPaciente = () => {
       >
         <View style={styles.campo}>
           <Text style={styles.label}>Paciente</Text>
-          <Text style={styles.valor}>{paciente.paciente}</Text>
+          <Text style={styles.valor}>{paciente.nombre}</Text>
         </View>
 
         <View style={styles.campo}>

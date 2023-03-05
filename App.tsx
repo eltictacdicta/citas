@@ -1,4 +1,4 @@
-import React, { useState,useContext } from 'react';
+import React, { useEffect,useContext } from 'react';
 import {DataContext,DataProvider} from './src/context/DataContext'
 import {
   SafeAreaView,
@@ -9,7 +9,9 @@ import {
   Alert,
   Modal
 } from 'react-native';
-
+import "reflect-metadata";
+import RNFS from 'react-native-fs'
+import { DataSource,Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 
 import Formulario from './src/components/Formulario'
 import Paciente from './src/components/Paciente'
@@ -18,6 +20,39 @@ import InfoPaciente from './src/components/InfoPaciente'
 
 const Main = () => {
   const {paciente,setPaciente,pacientes,setPacientes,modalVisible,setModalVisible,modalPaciente,setModalPaciente} = useContext( DataContext )
+
+
+
+  const fullPathDb = RNFS.DocumentDirectoryPath+'/citas.db'
+  const fullRestoreDb = RNFS.DownloadDirectoryPath+'/citas.db'
+  useEffect(() => {  
+    const MyDataSource = new DataSource({
+      type: 'react-native',
+      database: fullPathDb,
+      location: 'default',
+    });
+    MyDataSource.initialize()
+      .then(() => {
+          console.log("Base de datos sqlite inicializada!")
+          console.log(fullPathDb)
+      })
+      .catch((err) => {
+          console.error("Error en la inicialización", err)
+    })  
+    copyDB()
+    
+  }, []);
+
+  async function copyDB() {
+    try {
+        await RNFS.copyFile(fullPathDb, fullRestoreDb)
+        console.log('Copiado correctamente')
+        return true
+    } catch (e) {
+        console.log(e)
+        return false
+    }
+  }
 
   const pacienteEditar = id => {
     const pacienteActual = pacientes.filter(paciente => paciente.id === id)
@@ -65,9 +100,9 @@ const Main = () => {
             renderItem={({item})=>{
               return(
                 <Paciente 
-                item={item}
-                pacienteEditar={pacienteEditar}
-                pacienteEliminar={pacienteEliminar}
+                  item={item}
+                  pacienteEditar={pacienteEditar}
+                  pacienteEliminar={pacienteEliminar}
                 />
               )
             }}
@@ -83,11 +118,7 @@ const Main = () => {
           animationType='fade'
           
         >
-          <InfoPaciente
-            paciente={paciente}
-            setModalPaciente={setModalPaciente}
-            setPaciente={setPaciente}
-          />
+          <InfoPaciente />
         </Modal>
 
       </SafeAreaView>
