@@ -1,5 +1,6 @@
 import React, { useEffect,useContext } from 'react';
 import {DataContext,DataProvider} from './src/context/DataContext'
+import VersionCheck from 'react-native-version-check';
 import {
   SafeAreaView,
   Text,
@@ -18,6 +19,7 @@ import SQLite from 'react-native-sqlite-storage'
 import Formulario from './src/components/Formulario'
 import Paciente from './src/components/Paciente'
 import InfoPaciente from './src/components/InfoPaciente'
+import ModeloPacientes from './src/models';
 //import { EntidadPaciente } from './src/entity/EntidadPaciente';
 
 
@@ -26,23 +28,21 @@ const Main = () => {
 
 
 
-  const fullPathDb = RNFS.DocumentDirectoryPath+'/my.db'
+  const fullPathDb = '/data/data/'+VersionCheck.getPackageName()+'/databases//my.db'
   const fullRestoreDb = RNFS.DownloadDirectoryPath+'/my.db'
   /* const MyDataSource = new DataSource({
     type: 'react-native',
     database: fullPathDb,
     location: 'default',
   }); */
-  useEffect(() => {  
+  useEffect(() => {
+
+    //copyDB()
+
+    ModeloPacientes.createTable()
+   
+ 
     
-    SQLite.openDatabase({name: 'my.db', location: RNFS.DocumentDirectoryPath}, successcb, errorcb); 
-    function successcb(){
-      console.log("Base de datos creada")
-    }
-    function errorcb(){
-      console.log("No se ha creado la base de datos")
-    }
-    copyDB()
     
   }, []);
 
@@ -58,7 +58,14 @@ const Main = () => {
   }
 
   const agregaPaciente = async (nuevoPaciente) =>{
-    console.log(paciente)
+    console.log("id:", typeof nuevoPaciente.id)
+    console.log("nombre:", typeof nuevoPaciente.nombre)
+    console.log("propietario:", typeof nuevoPaciente.propietario)
+    nuevoPaciente.fecha = nuevoPaciente.fecha.getTime()
+    console.log("fecha:", typeof nuevoPaciente.fecha)
+    console.log("sintomas:", typeof nuevoPaciente.sintomas)
+    console.log("email:", typeof nuevoPaciente.email)
+    ModeloPacientes.create(new ModeloPacientes(nuevoPaciente))
     
     /* try {
       const userRepository = MyDataSource.getRepository(EntidadPaciente)
