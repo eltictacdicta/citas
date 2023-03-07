@@ -13,7 +13,7 @@ import {
 import DatePicker from 'react-native-date-picker'
 import {DataContext} from '../context/DataContext'
 
-const Formulario = () => {
+const Formulario = ({agregaPaciente}) => {
   
   const {paciente,setPaciente,pacientes,setPacientes,modalVisible,setModalVisible} = useContext( DataContext )
 
@@ -74,6 +74,7 @@ const Formulario = () => {
       //añadiendo
       nuevoPaciente.id = Date.now()
       setPacientes([...pacientes,nuevoPaciente])
+      agregaPaciente(nuevoPaciente)
     }
 
 

@@ -15,12 +15,14 @@
     "react-native-date-picker": "^4.2.8",
     "react-native-device-info": "^10.3.0",
     "react-native-fs": "^2.20.0",
+    "react-native-sqlite-orm": "^1.0.0",
     "react-native-sqlite-storage": "^6.0.1",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.3.12"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@babel/plugin-syntax-decorators": "^7.21.0",
     "@babel/preset-env": "^7.20.0",
     "@babel/runtime": "^7.20.0",
     "@react-native-community/eslint-config": "^3.2.0",

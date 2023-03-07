@@ -11,11 +11,14 @@ import {
 } from 'react-native';
 import "reflect-metadata";
 import RNFS from 'react-native-fs'
-import { DataSource,Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+//import { DataSource,Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import SQLite from 'react-native-sqlite-storage'
+
 
 import Formulario from './src/components/Formulario'
 import Paciente from './src/components/Paciente'
 import InfoPaciente from './src/components/InfoPaciente'
+//import { EntidadPaciente } from './src/entity/EntidadPaciente';
 
 
 const Main = () => {
@@ -23,22 +26,22 @@ const Main = () => {
 
 
 
-  const fullPathDb = RNFS.DocumentDirectoryPath+'/citas.db'
-  const fullRestoreDb = RNFS.DownloadDirectoryPath+'/citas.db'
+  const fullPathDb = RNFS.DocumentDirectoryPath+'/my.db'
+  const fullRestoreDb = RNFS.DownloadDirectoryPath+'/my.db'
+  /* const MyDataSource = new DataSource({
+    type: 'react-native',
+    database: fullPathDb,
+    location: 'default',
+  }); */
   useEffect(() => {  
-    const MyDataSource = new DataSource({
-      type: 'react-native',
-      database: fullPathDb,
-      location: 'default',
-    });
-    MyDataSource.initialize()
-      .then(() => {
-          console.log("Base de datos sqlite inicializada!")
-          console.log(fullPathDb)
-      })
-      .catch((err) => {
-          console.error("Error en la inicialización", err)
-    })  
+    
+    SQLite.openDatabase({name: 'my.db', location: RNFS.DocumentDirectoryPath}, successcb, errorcb); 
+    function successcb(){
+      console.log("Base de datos creada")
+    }
+    function errorcb(){
+      console.log("No se ha creado la base de datos")
+    }
     copyDB()
     
   }, []);
@@ -52,6 +55,25 @@ const Main = () => {
         console.log(e)
         return false
     }
+  }
+
+  const agregaPaciente = async (nuevoPaciente) =>{
+    console.log(paciente)
+    
+    /* try {
+      const userRepository = MyDataSource.getRepository(EntidadPaciente)
+      entidadPaciente = new EntidadPaciente()
+      entidadPaciente.id = nuevoPaciente.id
+      entidadPaciente.nombre = nuevoPaciente.nombre
+      entidadPaciente.propietario = nuevoPaciente.porpietario
+      entidadPaciente.fecha = nuevoPaciente.fecha
+      entidadPaciente.sintomas = nuevoPaciente.sintomas
+      await userRepository.save(entidadPaciente)
+    } catch (error) {
+      console.log("Error:",error)
+    } */
+    
+
   }
 
   const pacienteEditar = id => {
@@ -109,7 +131,9 @@ const Main = () => {
           />
         }
         {modalVisible &&(
-          <Formulario/>
+          <Formulario
+            agregaPaciente={agregaPaciente}
+          />
         )}
         
 
