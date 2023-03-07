@@ -119,6 +119,51 @@ const Main = () => {
             Nueva cita
           </Text>
         </Pressable>
+        <Pressable
+          onPress={() => {
+            console.log("Has presionado")
+            ModeloPacientes.dropTable()
+            ModeloPacientes.createTable()
+            const pacientePrueba={
+              id: 1,
+              nombre: "nombre prueba222",
+              propietario: "propietario prueba",
+              email:"a@a.com",
+              telefono:"1111111",
+              fecha:1111111,
+              sintomas:"Sintomas"
+            }
+            const pacientePrueba2={
+              id: 2,
+              nombre: "nombre prueba",
+              propietario: "propietario prueba2",
+              email:"a@a.com",
+              telefono:"1111111",
+              fecha:1111111,
+              sintomas:"Sintomas"
+            }
+
+            ModeloPacientes.create(new ModeloPacientes(pacientePrueba))
+            ModeloPacientes.create(new ModeloPacientes(pacientePrueba2))
+          
+            ModeloPacientes.copyDB()
+             const options = {
+              columns: '*',
+
+              order: 'id ASC'
+            }
+            
+            ModeloPacientes.query(options) 
+            //console.log(ModeloPacientes.all())
+          }}
+          style={styles.btnNuevaCita}
+        >
+          <Text
+          style={styles.btnTextoNuevaCita}
+          >
+            Prueba db
+          </Text>
+        </Pressable>
         
         {pacientes.length === 0 ? 
           <Text style={styles.noPacientes}>No hay pacientes</Text>:

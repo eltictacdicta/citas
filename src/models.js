@@ -1,8 +1,9 @@
+import React from 'react';
 import SQLite from 'react-native-sqlite-storage'
 import { BaseModel, types } from 'react-native-sqlite-orm'
 import VersionCheck from 'react-native-version-check';
 import RNFS from 'react-native-fs'
-const tabla='pacientes'
+const tabla='pacientes3'
 const nombreDb= tabla+'.db'
 const fullPathDb = '/data/data/'+VersionCheck.getPackageName()+'/databases//'+nombreDb
 const fullRestoreDb = RNFS.DownloadDirectoryPath+'/'+nombreDb
@@ -40,7 +41,7 @@ export default class ModeloPacientes extends BaseModel {
       telefono: { type: types.TEXT, not_null: false },
       fecha: { type: types.INTEGER, not_null: true },
       sintomas: { type: types.TEXT, not_null: true },
-      created: { type: types.INTEGER, default: () => Date.now() }
+      //created: { type: types.INTEGER, default: () => Date.now() }
     }
   }
 
