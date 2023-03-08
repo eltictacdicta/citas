@@ -40,7 +40,7 @@ const Formulario = ({agregaPaciente}) => {
     }
   }, [paciente])
 
-  const handleCita = () =>{
+  const handleCita = async () =>{
     //validar
     if([nombre, propietario, email, fecha, sintomas].includes('')){
       Alert.alert(
@@ -72,9 +72,9 @@ const Formulario = ({agregaPaciente}) => {
 
     }else{
       //añadiendo
-      nuevoPaciente.id = Date.now()
-      setPacientes([...pacientes,nuevoPaciente])
-      agregaPaciente(nuevoPaciente)
+      const pacienteCreado = await agregaPaciente(nuevoPaciente)
+      setPacientes([...pacientes,pacienteCreado])
+      
     }
 
 

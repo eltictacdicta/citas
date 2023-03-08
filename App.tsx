@@ -58,28 +58,9 @@ const Main = () => {
   }
 
   const agregaPaciente = async (nuevoPaciente) =>{
-    console.log("id:", typeof nuevoPaciente.id)
-    console.log("nombre:", typeof nuevoPaciente.nombre)
-    console.log("propietario:", typeof nuevoPaciente.propietario)
-    nuevoPaciente.fecha = nuevoPaciente.fecha.getTime()
-    console.log("fecha:", typeof nuevoPaciente.fecha)
-    console.log("sintomas:", typeof nuevoPaciente.sintomas)
-    console.log("email:", typeof nuevoPaciente.email)
-    console.log(nuevoPaciente)
-    //ModeloPacientes.create(new ModeloPacientes(nuevoPaciente))
-    
-    /* try {
-      const userRepository = MyDataSource.getRepository(EntidadPaciente)
-      entidadPaciente = new EntidadPaciente()
-      entidadPaciente.id = nuevoPaciente.id
-      entidadPaciente.nombre = nuevoPaciente.nombre
-      entidadPaciente.propietario = nuevoPaciente.porpietario
-      entidadPaciente.fecha = nuevoPaciente.fecha
-      entidadPaciente.sintomas = nuevoPaciente.sintomas
-      await userRepository.save(entidadPaciente)
-    } catch (error) {
-      console.log("Error:",error)
-    } */
+   
+    const pacienteCreado = await ModeloPacientes.create(new ModeloPacientes(nuevoPaciente))
+    return pacienteCreado
     
 
   }
@@ -120,6 +101,36 @@ const Main = () => {
             Nueva cita
           </Text>
         </Pressable>
+        
+
+        
+        
+        {pacientes.length === 0 ? 
+          <Text style={styles.noPacientes}>No hay pacientes</Text>:
+          <FlatList
+            style={styles.listado}
+            data={pacientes}
+            keyExtractor={(item)=> item.id}
+            renderItem={({item})=>{
+              return(
+                <Paciente 
+                  item={item}
+                  pacienteEditar={pacienteEditar}
+                  pacienteEliminar={pacienteEliminar}
+                />
+              )
+            }}
+          />
+        }
+
+
+
+
+        {modalVisible &&(
+          <Formulario
+            agregaPaciente={agregaPaciente}
+          />
+        )}
         <Pressable
           onPress={async () => {
             console.log("Has presionado")
@@ -143,17 +154,24 @@ const Main = () => {
               fecha:1111111,
               sintomas:"Sintomas"
             } */
+
             const pacientePrueba = {"email": "P@p.com", "fecha": 1678259537393, "nombre": "P", "propietario": "P2", "sintomas": "11122hgghj", "telefono": "111111"}
-            ModeloPacientes.create(new ModeloPacientes(pacientePrueba))
+            const pacienteCreado = await ModeloPacientes.create(new ModeloPacientes(pacientePrueba))
             const pacientePrueba2 = {"email": "P@p.com", "fecha": 1678259537393, "nombre": "P22", "propietario": "P222", "sintomas": "11122hgghj", "telefono": "111111"}
             ModeloPacientes.create(new ModeloPacientes(pacientePrueba2))
+            const props = {
+              id: 1, // required
+              email: "Nuevo email"
+            }
+            
+            ModeloPacientes.update(props)
             //ModeloPacientes.create(new ModeloPacientes(pacientePrueba2))
           
             ModeloPacientes.copyDB()
             //console.log(ModeloPacientes.query(options)) 
             //ModeloPacientes.todos()
-          
-            console.log(await ModeloPacientes.all())
+            const resultado = await ModeloPacientes.all()
+            console.log(resultado)
           }}
           style={styles.btnNuevaCita}
         >
@@ -164,29 +182,34 @@ const Main = () => {
           </Text>
         </Pressable>
         
-        {pacientes.length === 0 ? 
-          <Text style={styles.noPacientes}>No hay pacientes</Text>:
-          <FlatList
-            style={styles.listado}
-            data={pacientes}
-            keyExtractor={(item)=> item.id}
-            renderItem={({item})=>{
-              return(
-                <Paciente 
-                  item={item}
-                  pacienteEditar={pacienteEditar}
-                  pacienteEliminar={pacienteEliminar}
-                />
-              )
-            }}
-          />
-        }
-        {modalVisible &&(
-          <Formulario
-            agregaPaciente={agregaPaciente}
-          />
-        )}
         
+        <Pressable
+          onPress={async () => {
+            const resultado = await ModeloPacientes.all()
+            console.log(resultado)
+          }}
+          style={styles.btnNuevaCita}
+        >
+          <Text
+          style={styles.btnTextoNuevaCita}
+          >
+            Listado por consola
+          </Text>
+        </Pressable>
+
+        <Pressable
+          onPress={async () => {
+            const resultado = await ModeloPacientes.all()
+            console.log(resultado)
+          }}
+          style={styles.btnNuevaCita}
+        >
+          <Text
+          style={styles.btnTextoNuevaCita}
+          >
+            Listado por consola
+          </Text>
+        </Pressable>
 
         <Modal
           visible={modalPaciente}

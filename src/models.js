@@ -48,7 +48,7 @@ export default class ModeloPacientes extends BaseModel {
   static async all() {
     const sql = 'SELECT * FROM '+tabla+";"
     const respuesta = await this.repository.databaseLayer.executeSql(sql)
-    return respuesta
+    return respuesta.rows
 
   }
   
