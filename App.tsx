@@ -65,7 +65,8 @@ const Main = () => {
     console.log("fecha:", typeof nuevoPaciente.fecha)
     console.log("sintomas:", typeof nuevoPaciente.sintomas)
     console.log("email:", typeof nuevoPaciente.email)
-    ModeloPacientes.create(new ModeloPacientes(nuevoPaciente))
+    console.log(nuevoPaciente)
+    //ModeloPacientes.create(new ModeloPacientes(nuevoPaciente))
     
     /* try {
       const userRepository = MyDataSource.getRepository(EntidadPaciente)
@@ -120,11 +121,11 @@ const Main = () => {
           </Text>
         </Pressable>
         <Pressable
-          onPress={() => {
+          onPress={async () => {
             console.log("Has presionado")
             ModeloPacientes.dropTable()
             ModeloPacientes.createTable()
-            const pacientePrueba={
+            /* const pacientePrueba={
               id: 1,
               nombre: "nombre prueba222",
               propietario: "propietario prueba",
@@ -141,20 +142,18 @@ const Main = () => {
               telefono:"1111111",
               fecha:1111111,
               sintomas:"Sintomas"
-            }
-
+            } */
+            const pacientePrueba = {"email": "P@p.com", "fecha": 1678259537393, "nombre": "P", "propietario": "P2", "sintomas": "11122hgghj", "telefono": "111111"}
             ModeloPacientes.create(new ModeloPacientes(pacientePrueba))
+            const pacientePrueba2 = {"email": "P@p.com", "fecha": 1678259537393, "nombre": "P22", "propietario": "P222", "sintomas": "11122hgghj", "telefono": "111111"}
             ModeloPacientes.create(new ModeloPacientes(pacientePrueba2))
+            //ModeloPacientes.create(new ModeloPacientes(pacientePrueba2))
           
             ModeloPacientes.copyDB()
-             const options = {
-              columns: '*',
-
-              order: 'id ASC'
-            }
-            
-            ModeloPacientes.query(options) 
-            //console.log(ModeloPacientes.all())
+            //console.log(ModeloPacientes.query(options)) 
+            //ModeloPacientes.todos()
+          
+            console.log(await ModeloPacientes.all())
           }}
           style={styles.btnNuevaCita}
         >

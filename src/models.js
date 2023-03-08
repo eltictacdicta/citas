@@ -34,7 +34,7 @@ export default class ModeloPacientes extends BaseModel {
 
   static get columnMapping() {
     return {
-      id: { type: types.INTEGER, not_null: true }, 
+      id: { type: types.INTEGER, primary_key: true },
       nombre: { type: types.TEXT, not_null: true },
       propietario: { type: types.TEXT, not_null: true },
       email: { type: types.TEXT, not_null: true },
@@ -44,6 +44,14 @@ export default class ModeloPacientes extends BaseModel {
       //created: { type: types.INTEGER, default: () => Date.now() }
     }
   }
+
+  static async all() {
+    const sql = 'SELECT * FROM '+tabla+";"
+    const respuesta = await this.repository.databaseLayer.executeSql(sql)
+    return respuesta
+
+  }
+  
 
   static async copyDB() {
     try {
