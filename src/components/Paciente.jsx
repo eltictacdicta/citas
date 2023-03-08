@@ -4,7 +4,7 @@ import { formatearFecha } from '../helpers'
 import {DataContext} from '../context/DataContext'
 
 const Paciente = ({item,   
-    pacienteEditar, 
+    cargaFormEditar, 
     pacienteEliminar}) => {
     const {paciente,setPaciente,modalVisible,setModalVisible,setModalPaciente} = useContext( DataContext )
     const {nombre,fecha,id} = item
@@ -24,7 +24,7 @@ const Paciente = ({item,
                     style={[styles.btn,styles.btnEditar]}
                     onLongPress={()=> {
                         setModalVisible(!modalVisible)
-                        pacienteEditar(id)
+                        cargaFormEditar(id)
                     }
                     }>
                         <Text style={styles.btnTexto}>

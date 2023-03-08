@@ -38,8 +38,15 @@ const Main = () => {
   useEffect(() => {
 
     //copyDB()
+    const cargaBD = async () =>
+    {
+      ModeloPacientes.createTable()
+      const resultado = await ModeloPacientes.all()
+      setPacientes(resultado)
+    }
 
-    ModeloPacientes.createTable()
+    cargaBD()
+    
    
  
     
@@ -58,15 +65,25 @@ const Main = () => {
   }
 
   const agregaPaciente = async (nuevoPaciente) =>{
-   
+    nuevoPaciente.fecha = nuevoPaciente.fecha.getTime()
     const pacienteCreado = await ModeloPacientes.create(new ModeloPacientes(nuevoPaciente))
     return pacienteCreado
     
 
   }
 
-  const pacienteEditar = id => {
+  const editaPaciente = async (pacienteEditado) =>{
+    pacienteEditado.fecha = pacienteEditado.fecha.getTime()
+    const pacienteCreadoDb = await ModeloPacientes.update(pacienteEditado)
+    console.log(pacienteCreadoDb)
+    return pacienteCreadoDb
+    
+
+  }
+
+  const cargaFormEditar = id => {
     const pacienteActual = pacientes.filter(paciente => paciente.id === id)
+    pacienteActual[0].fecha = new Date(pacienteActual[0].fecha) 
     setPaciente(pacienteActual[0])
   }
 
@@ -77,8 +94,13 @@ const Main = () => {
       [
         { text: 'Cancelar'},
         { text: 'Si, Eliminar', onPress:()=>{
-          const pacientesActualizados = pacientes.filter(paciente => paciente.id !== id)
-          setPacientes(pacientesActualizados)
+          const elimina = async () =>{
+            await ModeloPacientes.destroy(id)
+            const pacientesActualizados = pacientes.filter(paciente => paciente.id !== id)
+            setPacientes(pacientesActualizados)
+          }
+          elimina()
+          
         }}
       ]
     )
@@ -115,7 +137,7 @@ const Main = () => {
               return(
                 <Paciente 
                   item={item}
-                  pacienteEditar={pacienteEditar}
+                  cargaFormEditar={cargaFormEditar}
                   pacienteEliminar={pacienteEliminar}
                 />
               )
@@ -129,62 +151,28 @@ const Main = () => {
         {modalVisible &&(
           <Formulario
             agregaPaciente={agregaPaciente}
+            editaPaciente={editaPaciente}
           />
         )}
         <Pressable
-          onPress={async () => {
-            console.log("Has presionado")
-            ModeloPacientes.dropTable()
-            ModeloPacientes.createTable()
-            /* const pacientePrueba={
-              id: 1,
-              nombre: "nombre prueba222",
-              propietario: "propietario prueba",
-              email:"a@a.com",
-              telefono:"1111111",
-              fecha:1111111,
-              sintomas:"Sintomas"
-            }
-            const pacientePrueba2={
-              id: 2,
-              nombre: "nombre prueba",
-              propietario: "propietario prueba2",
-              email:"a@a.com",
-              telefono:"1111111",
-              fecha:1111111,
-              sintomas:"Sintomas"
-            } */
-
-            const pacientePrueba = {"email": "P@p.com", "fecha": 1678259537393, "nombre": "P", "propietario": "P2", "sintomas": "11122hgghj", "telefono": "111111"}
-            const pacienteCreado = await ModeloPacientes.create(new ModeloPacientes(pacientePrueba))
-            const pacientePrueba2 = {"email": "P@p.com", "fecha": 1678259537393, "nombre": "P22", "propietario": "P222", "sintomas": "11122hgghj", "telefono": "111111"}
-            ModeloPacientes.create(new ModeloPacientes(pacientePrueba2))
-            const props = {
-              id: 1, // required
-              email: "Nuevo email"
-            }
+          onLongPress={async () => {
             
-            ModeloPacientes.update(props)
-            //ModeloPacientes.create(new ModeloPacientes(pacientePrueba2))
           
             ModeloPacientes.copyDB()
-            //console.log(ModeloPacientes.query(options)) 
-            //ModeloPacientes.todos()
-            const resultado = await ModeloPacientes.all()
-            console.log(resultado)
+
           }}
           style={styles.btnNuevaCita}
         >
           <Text
           style={styles.btnTextoNuevaCita}
           >
-            Prueba db
+            Copia db
           </Text>
         </Pressable>
         
         
         <Pressable
-          onPress={async () => {
+          onLongPress={async () => {
             const resultado = await ModeloPacientes.all()
             console.log(resultado)
           }}
@@ -198,16 +186,16 @@ const Main = () => {
         </Pressable>
 
         <Pressable
-          onPress={async () => {
-            const resultado = await ModeloPacientes.all()
-            console.log(resultado)
+          onLongPress={async () => {
+            ModeloPacientes.dropTable()
+            ModeloPacientes.createTable()
           }}
           style={styles.btnNuevaCita}
         >
           <Text
           style={styles.btnTextoNuevaCita}
           >
-            Listado por consola
+            Limpiar DB
           </Text>
         </Pressable>
 
