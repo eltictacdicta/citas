@@ -3,12 +3,13 @@ import SQLite from 'react-native-sqlite-storage'
 import { BaseModel, types } from 'react-native-sqlite-orm'
 import VersionCheck from 'react-native-version-check';
 import RNFS from 'react-native-fs'
-const tabla='pacientes3'
-const nombreDb= tabla+'.db'
-const fullPathDb = '/data/data/'+VersionCheck.getPackageName()+'/databases//'+nombreDb
+const nombreDb= 'citas.db'
+const fullPathDb = '/data/data/'+VersionCheck.getPackageName()+'/databases/'+nombreDb
 const fullRestoreDb = RNFS.DownloadDirectoryPath+'/'+nombreDb
 export default class ModeloPacientes extends BaseModel {
+  tabla='pacientes'
   constructor(obj) {
+    
     super(obj)
   }
 
@@ -29,7 +30,7 @@ export default class ModeloPacientes extends BaseModel {
   }
 
   static get tableName() {
-    return tabla
+    return this.tabla
   }
 
   static get columnMapping() {
@@ -46,7 +47,8 @@ export default class ModeloPacientes extends BaseModel {
   }
 
   static async all() {
-    const sql = 'SELECT * FROM '+tabla+";"
+    const sql = `SELECT * FROM ${this.tabla};`
+    
     const respuesta = await this.repository.databaseLayer.executeSql(sql)
     return respuesta.rows
 
