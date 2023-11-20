@@ -26,8 +26,6 @@ import ModeloPacientes from './src/models';
 const Main = () => {
   const {paciente,setPaciente,pacientes,setPacientes,modalVisible,setModalVisible,modalPaciente,setModalPaciente} = useContext( DataContext )
 
-
-
   const fullPathDb = '/data/data/'+VersionCheck.getPackageName()+'/databases//my.db'
   const fullRestoreDb = RNFS.DownloadDirectoryPath+'/my.db'
   /* const MyDataSource = new DataSource({
@@ -53,16 +51,7 @@ const Main = () => {
     
   }, []);
 
-  async function copyDB() {
-    try {
-        await RNFS.copyFile(fullPathDb, fullRestoreDb)
-        console.log('Copiado correctamente')
-        return true
-    } catch (e) {
-        console.log(e)
-        return false
-    }
-  }
+
 
   const agregaPaciente = async (nuevoPaciente) =>{
     nuevoPaciente.fecha = nuevoPaciente.fecha.getTime()
