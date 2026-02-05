@@ -10,7 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "expo": "^48.0.0",
+    "expo": "^54.0.32",
     "expo-sqlite-orm": "^1.6.0",
     "react": "18.2.0",
     "react-hook-form": "^7.43.5",
@@ -22,13 +22,13 @@
     "react-native-sqlite-storage": "^6.0.1",
     "react-native-version-check": "^3.4.7",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.3.12"
+    "typeorm": "^0.3.28"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@babel/plugin-syntax-decorators": "^7.21.0",
     "@babel/preset-env": "^7.20.0",
-    "@babel/runtime": "^7.20.0",
+    "@babel/runtime": "^7.28.6",
     "@react-native-community/eslint-config": "^3.2.0",
     "@tsconfig/react-native": "^2.0.2",
     "@types/jest": "^29.2.1",
